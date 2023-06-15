@@ -60,7 +60,22 @@ then
     --cluster ${CLUSTER_NAME} \
     --service-account-role-arn ${ROLE_ARN} \
     --force
-    
+
+   cat <<EOF | kubectl create -f - 
+   apiVersion: storage.k8s.io/v1
+   kind: StorageClass
+   metadata:
+     name: ebs-gp2-sc
+     annotations: 
+       storageclass.kubernetes.io/is-default-class: "true"   # Make this storageClass as Default
+   provisioner: ebs.csi.aws.com   # Amazon EBS CSI driver
+   parameters:
+     type: gp2
+     encrypted: 'true'   # EBS volumes will always be encrypted by default
+   volumeBindingMode: WaitForFirstConsumer
+   reclaimPolicy: Delete
+EOF
+
 else
     echo -e "Exiting..bye.\n" 
     exit
