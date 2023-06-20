@@ -26,13 +26,13 @@ then
           echo "\$OIDC Provider already exists"
     fi
     
-    #The policy AmazonEBSCSIDriverPolicy already exists hence commenting the part that creates the policy
-    #Create an IAM-POLICY and extract POLICY_ARN
-    #curl https://raw.githubusercontent.com/shamimice03/AWS_EKS-EBS_CSI/main/AwsEBSCSIDriverPolicy.json > ebs_csi_policy.json
+
+    Create an IAM-POLICY and extract POLICY_ARN
+    curl https://raw.githubusercontent.com/shamimice03/AWS_EKS-EBS_CSI/main/AwsEBSCSIDriverPolicy.json > ebs_csi_policy.json
     
-    #aws iam create-policy \
-    #--policy-name AwsEBSCSIDriverPolicy \
-    #--policy-document file://ebs_csi_policy.json
+    aws iam create-policy \
+    --policy-name AwsEBSCSIDriverPolicy \
+    --policy-document file://ebs_csi_policy.json
 
      
     export POLICY_ARN=$(aws iam list-policies --query 'Policies[?PolicyName==`AwsEBSCSIDriverPolicy`].Arn' --output text)
